@@ -6,7 +6,7 @@ import React from "react";
 const Navbar = () => {
   return (
     <header className='w-full py-3 fixed top-0 z-50 text-white border-b border-primary backdrop-blur-sm bg-transparent'>
-      <div className='container-wrapper flex justify-between px-2'>
+      <div className='container-wrapper flex justify-between px-4 mx-4'>
         <div className='flex items-center gap-10'>
           {/* Logo */}
           <h1
@@ -67,7 +67,7 @@ const Navbar = () => {
           </div>
 
           <button className='px-4 py-1 text-black bg-gray-100 border-lg rounded cursor-pointer h-8 w-24 hover:opacity-70'>
-            Sign In
+            Log In
           </button>
         </div>
       </div>

@@ -2,6 +2,9 @@
 import Navbar from "../Navbar";
 import {CheckCircle} from "lucide-react";
 import Background from "./background";
+import Learn from "./learn";
+import Footer from "../Footer";
+import Features from "./features";
 
 export default function Main() {
   return (
@@ -9,8 +12,9 @@ export default function Main() {
       <Navbar />
       <main className='relative flex flex-col items-center justify-center h-screen border-b border-primary max-h-[100vh]'>
         <Background />
+        <div className='relative z-10 flex flex-col items-center'>
         <h1 className='text-7xl font-extrabold text-center text-gray-100 p-8'>
-          Ma'lumot turlari va Algoritmlarni_ O'zbek tilida o'rganing
+          Ma'lumot turlari va Algoritmlarni <br /> O'zbek tilida o'rganing
         </h1>
         <p className='mt-4 text-lg text-[#888888] text-center max-w-4xl'>
           Bu yerda siz ma'lumot turlari va algoritmlarni oson va tushunarli
@@ -44,7 +48,11 @@ export default function Main() {
             </span>
           </div>
         </div>
+        </div>
       </main>
+      <Features />
+      <Learn />
+      <Footer />
     </div>
   );
 }

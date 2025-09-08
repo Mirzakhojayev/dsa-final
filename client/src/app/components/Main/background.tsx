@@ -1,29 +1,30 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 
 type Badge = {
-	label: string;
-	bg: string;
-	fg: string;
-	top: string; 
-	left: string; 
+	src: string;
+	alt: string;
+	top: string;
+	left: string;
 	speed?: "fast" | "normal" | "slow";
+	scale?: number; // visual normalization without changing container bg
 };
 
 const BADGES: Badge[] = [
-	{ label: "JS", bg: "#f7df1e", fg: "#111111", top: "6%", left: "8%", speed: "normal" },
-	{ label: "TS", bg: "#3178c6", fg: "#ffffff", top: "18%", left: "78%", speed: "slow" },
-	{ label: "Python", bg: "#3673a5", fg: "#ffd43b", top: "32%", left: "12%", speed: "fast" },
-	{ label: "C++", bg: "#00599c", fg: "#ffffff", top: "12%", left: "48%", speed: "normal" },
-	{ label: "Java", bg: "#f89820", fg: "#111111", top: "44%", left: "68%", speed: "normal" },
-	{ label: "Go", bg: "#00add8", fg: "#083344", top: "56%", left: "8%", speed: "slow" },
-	{ label: "Rust", bg: "#000000", fg: "#f97316", top: "70%", left: "32%", speed: "fast" },
-	{ label: "Ruby", bg: "#cc342d", fg: "#ffffff", top: "22%", left: "24%", speed: "normal" },
-	{ label: "PHP", bg: "#777bb3", fg: "#0b1021", top: "76%", left: "74%", speed: "slow" },
-	{ label: "Swift", bg: "#ff6f00", fg: "#111111", top: "62%", left: "56%", speed: "normal" },
-	{ label: "Kotlin", bg: "#7f52ff", fg: "#ffffff", top: "36%", left: "86%", speed: "fast" },
-	{ label: "Node", bg: "#3c873a", fg: "#eaffea", top: "8%", left: "90%", speed: "normal" },
+	{ src: "/languages/javascript.svg", alt: "JavaScript", top: "12%", left: "48%", speed: "normal", scale: 1.15 },
+	{ src: "/languages/typescript.svg", alt: "TypeScript", top: "18%", left: "78%", speed: "slow", scale: 1.0 },
+	{ src: "/languages/python.svg", alt: "Python", top: "32%", left: "12%", speed: "fast", scale: 1.05 },
+	{ src: "/languages/c-plus-plus.svg", alt: "C++", top: "6%", left: "8%", speed: "normal", scale: 1.0 },
+	{ src: "/languages/java.svg", alt: "Java", top: "44%", left: "68%", speed: "normal", scale: 1.0 },
+	{ src: "/languages/go.svg", alt: "Go", top: "56%", left: "8%", speed: "slow", scale: 1.0 },
+	{ src: "/languages/rust.svg", alt: "Rust", top: "70%", left: "32%", speed: "fast", scale: 1.15 },
+	{ src: "/languages/ruby.svg", alt: "Ruby", top: "22%", left: "24%", speed: "normal", scale: 1.15 },
+	{ src: "/languages/php.svg", alt: "PHP", top: "76%", left: "74%", speed: "slow", scale: 1.2 },
+	{ src: "/languages/swift.svg", alt: "Swift", top: "62%", left: "56%", speed: "normal", scale: 1.1 },
+	{ src: "/languages/kotlin.svg", alt: "Kotlin", top: "36%", left: "86%", speed: "fast", scale: 1.0 },
+	{ src: "/languages/nodejs.svg", alt: "Node.js", top: "8%", left: "90%", speed: "normal", scale: 1.1 },
 ];
 
 function speedClass(s?: Badge["speed"]) {
@@ -41,33 +42,34 @@ export default function Background() {
 	return (
 		<div
 			aria-hidden
-			className="pointer-events-none absolute inset-0 overflow-hidden select-none"
+			className="pointer-events-none absolute inset-0 overflow-hidden select-none z-0"
 		>
 			{/* subtle vignette */}
 			<div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/5 to-black/20" />
 
 			{BADGES.map((b, i) => (
 				<span
-					key={`${b.label}-${i}`}
+					key={`${b.alt}-${i}`}
 					className={[
-						"absolute inline-flex items-center gap-2 rounded-full border border-white/10",
-						"px-3 py-1 text-xs font-medium shadow-md backdrop-blur-[2px]",
-						"opacity-70 hover:opacity-90 transition-opacity",
+						"absolute inline-flex items-center justify-center rounded-2xl border border-white/10",
+						"px-4 py-4 shadow-md backdrop-blur-[2px] bg-[#212121]",
 						speedClass(b.speed),
 					].join(" ")}
-					style={{
-						top: b.top,
-						left: b.left,
-						backgroundColor: `${b.bg}20`,
-						color: b.fg,
-					}}
+					style={{ top: b.top, left: b.left }}
 				>
-					{/* dot */}
-					<span
-						className="inline-block h-2 w-2 rounded-full"
-						style={{ backgroundColor: b.bg }}
-					/>
-					{b.label}
+					<div
+						className="flex items-center justify-center"
+						style={{ transform: `scale(${b.scale ?? 1})` }}
+					>
+						<Image
+							src={b.src}
+							alt={b.alt}
+							width={40}
+							height={40}
+							className="h-10 w-10 object-contain drop-shadow-[0_0_6px_rgba(0,0,0,0.45)] contrast-125"
+							priority={false}
+						/>
+					</div>
 				</span>
 			))}
 		</div>
