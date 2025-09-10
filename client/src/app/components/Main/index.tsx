@@ -2,9 +2,9 @@
 import Navbar from "../Navbar";
 import {CheckCircle} from "lucide-react";
 import Background from "./background";
-import Learn from "./learn";
 import Footer from "../Footer";
 import Features from "./features";
+import Learn from "./learn";
 
 export default function Main() {
   return (

@@ -12,7 +12,7 @@ const Navbar = () => {
           <h1
             className='ml-8 text-2xl font-extrabold text-gray-100 cursor-pointer'
             onClick={() => (window.location.href = "/")}>
-            DSA
+            DSA.uz
           </h1>
 
           {/* Navigation Links */}
@@ -29,14 +29,14 @@ const Navbar = () => {
               tabIndex={0}
               className=' hover:text-white cursor-pointer ml-3'
               href='/problemset'>
-              Problemset
+              Masalalar
             </Link>
             <Link
               role='link'
               tabIndex={0}
               className=' hover:text-white cursor-pointer ml-3'
               href='/read'>
-              Read
+              Maqolalar
             </Link>
             <Link
               role='link'
@@ -50,7 +50,7 @@ const Navbar = () => {
               tabIndex={0}
               className=' hover:text-white cursor-pointer ml-3'
               href='/about'>
-              About Us
+              Biz haqimizda
             </Link>
           </nav>
         </div>
