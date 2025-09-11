@@ -5,6 +5,7 @@ import Background from "./background";
 import Footer from "../Footer";
 import Features from "./features";
 import Learn from "./learn";
+import Courses from "./courses";
 
 export default function Main() {
   return (
@@ -51,7 +52,8 @@ export default function Main() {
         </div>
       </main>
       <Features />
-      <Learn />
+      <Courses />
+      {/* <Learn /> */}
       <Footer />
     </div>
   );

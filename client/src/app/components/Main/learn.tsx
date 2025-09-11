@@ -78,7 +78,7 @@ export default function Learn() {
 
   return (
     <div className='w-full bg-primary text-white'>
-      <div className='mx-auto max-w-5xl px-6'>
+      <div className='mx-auto max-w-7xl'>
         {sections.map((s, i) => (
           <section
             key={s.id}

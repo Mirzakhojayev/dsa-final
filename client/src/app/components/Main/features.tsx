@@ -36,12 +36,12 @@ const items: Feature[] = [
 export default function Features() {
   return (
     <section className='font-extralight w-full bg-primary text-white border-b border-primary'>
-      <div className='mx-auto max-w-7xl px-6 py-20 space-y-20'>
+      <div className='mx-auto max-w-7xl py-20 space-y-20'>
         {items.map((f, i) => {
           const gif = (
             <div>
-              <div className='w-full min-h-[360px] border border-white/15 rounded-xl bg-white/5 backdrop-blur-[2px] flex items-center justify-center'>
-                <div className='w-[60%] text-center text-zinc-400'>
+              <div className='w-full min-h-[360px] border border-[#2E2E2E] rounded-xl bg-[#141414] backdrop-blur-[2px] flex items-center justify-center'>
+                <div className='w-[50%] text-center text-zinc-400'>
                   GIF uchun placeholder
                 </div>
               </div>
@@ -49,7 +49,7 @@ export default function Features() {
           );
           const text = (
             <div>
-              <div className='inline-flex bg-white/10 text-white/90 border border-white/15 rounded-full px-3 py-1 text-sm backdrop-blur-sm mb-4'>
+              <div className='inline-flex bg-[#222222] text-[#FFFFFF] border border-[#2E2E2E] rounded-full px-3 py-1 text-sm backdrop-blur-sm mb-4'>
                 {f.chip}
               </div>
               <h3 className='text-4xl font-extrabold tracking-tight'>

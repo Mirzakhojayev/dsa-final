@@ -51,8 +51,8 @@ export default function Background() {
 				<span
 					key={`${b.alt}-${i}`}
 					className={[
-						"absolute inline-flex items-center justify-center rounded-2xl border border-white/10",
-						"px-4 py-4 shadow-md backdrop-blur-[2px] bg-[#212121]",
+						"absolute inline-flex items-center justify-center rounded-2xl border border-[#2A2A2A]",
+						"px-4 py-4 shadow-md backdrop-blur-[2px] bg-[#1C1C1C]",
 						speedClass(b.speed),
 					].join(" ")}
 					style={{ top: b.top, left: b.left }}
