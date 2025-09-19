@@ -1,96 +1,100 @@
 "use client";
 
 import {problems} from "./mockProblems";
-import {Youtube} from "lucide-react";
 import Link from "next/link";
-import YouTube from "react-youtube";
-import {useState} from "react";
-import {CheckCircle, X} from "lucide-react";
+import {CheckCircle} from "lucide-react";
 
 const ProblemsTable = () => {
-  const [youtubePlayer, setYoutubePlayer] = useState({
-    isOpen: false,
-    videoId: "",
-  });
-
-  const closeModal = () => {
-    setYoutubePlayer({
-      isOpen: false,
-      videoId: "",
-    });
-  };
   return (
-    <>
-      <tbody className='text-white'>
+    <table
+      className='text-sm text-left text-gray-400 mx-auto w-full max-w-[80%] rounded-lg mb-4'
+      style={{borderCollapse: "separate", borderSpacing: "0px 6px"}}>
+      <thead className='text-gray-100 uppercase border-b border-[#888888]'>
+        <tr>
+          <th
+            scope='col'
+            className='px-1 py-3 w-0 font-medium'>
+            Status
+          </th>
+          <th
+            scope='col'
+            className='px-6 py-3 w-0 font-medium'>
+            Title
+          </th>
+          <th
+            scope='col'
+            className='px-6 py-3 w-0 font-medium'>
+            Difficulty
+          </th>
+
+          <th
+            scope='col'
+            className='px-6 py-3 w-0 font-medium'>
+            Category
+          </th>
+        </tr>
+      </thead>
+      <tbody className='text-white rounded-lg mb-4'>
         {problems.map((doc, idx) => {
           const difficultyColor =
             doc.difficulty === "Easy"
-              ? "text-green-600"
+              ? "green"
               : doc.difficulty === "Medium"
-              ? "text-yellow-600"
-              : "text-red-600";
+              ? "yellow"
+              : "red";
           return (
             <tr
               key={doc.id}
-              className={`${idx % 2 == 1 ? "bg-[#181818]" : ""}`}>
-              <th className='px-6 py-3'>
-                <CheckCircle size={20} />
-              </th>
-              <td className='px-6 py-4'>
+              className='align-middle hover:opacity-70 cursor-pointer'>
+              <td className='px-4 py-2 bg-[#0f0f0f] text-[#FFFFFF] rounded-l-lg w-10'>
+                <CheckCircle size={22} />
+              </td>
+
+              <td className='px-4 py-2 bg-[#0f0f0f] text-[#FFFFFF] font-semibold'>
                 <Link
-                  className='hover:opacity-50'
-                  href={`/problems/${doc.id}`}>
+                  href={`/problems/${doc.id}`}
+                  className='flex items-center gap-6 font-medium'>
                   {doc.title}
                 </Link>
               </td>
-              <td className={`px-6 py-4 ${difficultyColor}`}>
-                {doc.difficulty}
+
+              <td className={`bg-[#0f0f0f]`}>
+                  <span className={`text-${difficultyColor}-600 ml-6`}>
+                    {doc.difficulty}
+                  </span>
               </td>
-              <td className='px-6 py-4'>{doc.category}</td>
-              <td className='px-6 py-4'>
-                {doc.videoId ? (
-                  <Youtube
-                    className='cursor-pointer hover:text-red-600'
-                    size={30}
-                    onClick={() =>
-                      setYoutubePlayer({
-                        isOpen: true,
-                        videoId: doc.videoId ?? "",
-                      })
-                    }
-                  />
-                ) : (
-                  <p>Coming Soon</p>
-                )}
+
+              <td className='px-4 py-2 bg-[#0f0f0f] text-[#ADADAD] rounded-r-lg'>
+                {doc.category}
               </td>
+
+              {/* <td
+                colSpan={4}
+                className='py-2'>
+                <div className='rounded-lg bg-[#181818] flex items-center gap-6 px-3'>
+                  <div className='flex items-center justify-center w-8'>
+                    <CheckCircle size={20} />
+                  </div>
+                  <div className="flex py-2 gap-4 items-center justify-around w-full">
+                    <Link
+                      className='hover:opacity-50 text-lg font-medium'
+                      href={`/problems/${doc.id}`}>
+                      {doc.title}
+                    </Link>
+                    <div className='mt-1 text-sm text-[#888888]'>
+                      {doc.category}
+                    </div>
+                    <div }>
+                      {doc.difficulty}
+                    </div>
+                  </div>
+                </div>
+              </td> */}
             </tr>
           );
         })}
       </tbody>
-      {youtubePlayer.isOpen && (
-        <tfoot className='fixed top-0 left-0 flex items-center justify-center h-screen w-screen'>
-          <div
-            className='bg-black z-10 opacity-70 top-0 left-0 h-screen w-screen absolute'
-            onClick={closeModal}></div>
-          <div className='w-full z-50 px-6 relative h-full'>
-            <div className='h-full w-full flex items-center justify-center relative'>
-              <div className='w-full relative'>
-                <X
-                  fontSize={"35"}
-                  className='cursor-pointer absolute -top-16 right-0'
-                  onClick={closeModal}
-                />
-                <YouTube
-                  videoId={youtubePlayer.videoId}
-                  loading='lazy'
-                  iframeClassName='w-full min-h-[500px]'
-                />
-              </div>
-            </div>
-          </div>
-        </tfoot>
-      )}
-    </>
+    </table>
   );
 };
 
