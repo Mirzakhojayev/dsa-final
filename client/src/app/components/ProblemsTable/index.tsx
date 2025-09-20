@@ -52,7 +52,7 @@ const ProblemsTable = () => {
 
               <td className='px-4 py-2 bg-[#0f0f0f] text-[#FFFFFF] font-semibold'>
                 <Link
-                  href={`/problems/${doc.id}`}
+                  href={`/problem/${doc.id}`}
                   className='flex items-center gap-6 font-medium'>
                   {doc.title}
                 </Link>

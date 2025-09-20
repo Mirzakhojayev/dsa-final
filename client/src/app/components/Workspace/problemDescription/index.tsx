@@ -3,9 +3,6 @@ import {
   CheckCircle,
   Lightbulb,
   NotebookText,
-  Star,
-  ThumbsDown,
-  ThumbsUp,
 } from "lucide-react";
 import React from "react";
 
@@ -13,7 +10,7 @@ type Props = {};
 
 const ProblemDescription = (props: Props) => {
   return (
-  <div className='h-screen bg-[#262626] m-1 rounded-xl'>
+    <div className='h-screen bg-[#262626] m-1 rounded-xl'>
       {/* Header */}
       <div className='flex gap-2 items-center px-2 py-1 bg-[#333333] text-[#b4b4b4] text-sm rounded-t-xl'>
         <div className='flex gap-1 items-center cursor-pointer hover:bg-[#444444] px-2 py-1 rounded'>
@@ -32,7 +29,7 @@ const ProblemDescription = (props: Props) => {
         </div>
       </div>
 
-  <div className='flex px-0 py-4 h-[calc(100vh-94px)] overflow-y-auto custom-scrollbar'>
+      <div className='flex px-0 py-4 h-[calc(100vh-94px)] overflow-y-auto custom-scrollbar'>
         <div className='px-5'>
           {/* Problem heading */}
           <div className='w-full'>
@@ -143,9 +140,15 @@ const ProblemDescription = (props: Props) => {
               <div className='font-semibold text-sm text-white'>
                 <div className='example-card my-1'>
                   <p className='text-sm font-medium text-white'>
-                    Input: <span className="text-[#b4b4b4] font-normal">nums: [2, 7, 11, 15], target: 9</span>
+                    Input:{" "}
+                    <span className='text-[#b4b4b4] font-normal'>
+                      nums: [2, 7, 11, 15], target: 9
+                    </span>
                   </p>
-                  <p className='text-sm font-medium text-white'>Output: <span className="text-[#b4b4b4] font-normal">[0, 1]</span></p>
+                  <p className='text-sm font-medium text-white'>
+                    Output:{" "}
+                    <span className='text-[#b4b4b4] font-normal'>[0, 1]</span>
+                  </p>
                 </div>
               </div>
               {/* Case 2 */}
