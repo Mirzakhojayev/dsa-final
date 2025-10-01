@@ -13,11 +13,11 @@ const Article = () => {
       <div className="p-8 max-w-5xl mx-auto mt-[80px]">
         {found ? (
           <div key={String(found.id)}>
-            <h2 className="text-6xl font-bold text-white">{found.title}</h2>
-            <p className="text-white text-xl">{found.content}</p>
+            <h2 className="text-5xl font-bold text-gray-100">{found.title}</h2>
+            <p className="text-[#9f9f9f] text-2xl mt-6">{found.content}</p>
           </div>
         ) : (
-          <p className="text-white text-xl">Maqola topilmadi.</p>
+          <p className="text-gray-100 text-xl">Maqola topilmadi.</p>
         )}
       </div>
     </div>

@@ -67,7 +67,7 @@ const ReadPage = () => {
                           {article.title}
                         </h3>
                         <p className='text-[#888888] text-sm mt-1'>
-                          {article.content.substring(0, 80)}...
+                          {article.content.substring(0, 170)}...
                         </p>
                       </Link>
                     </td>
