@@ -38,19 +38,19 @@ const ProblemsTable = () => {
         {problems.map((doc, idx) => {
           const difficultyColor =
             doc.difficulty === "Easy"
-              ? "green"
+              ? "text-green-500"
               : doc.difficulty === "Medium"
-              ? "yellow"
-              : "red";
+              ? "text-yellow-500"
+              : "text-red-500";
           return (
             <tr
               key={doc.id}
               className='align-middle hover:opacity-70 cursor-pointer'>
-              <td className='px-4 py-2 bg-[#0f0f0f] text-[#FFFFFF] rounded-l-lg w-10'>
+              <td className='px-4 py-2 bg-[#151515] text-[#FFFFFF] rounded-l-lg w-10'>
                 <CheckCircle size={22} />
               </td>
 
-              <td className='px-4 py-2 bg-[#0f0f0f] text-[#FFFFFF] font-semibold'>
+              <td className='px-4 py-2 bg-[#151515] text-[#FFFFFF] font-semibold'>
                 <Link
                   href={`/problem/${doc.id}`}
                   className='flex items-center gap-6 font-medium'>
@@ -58,13 +58,13 @@ const ProblemsTable = () => {
                 </Link>
               </td>
 
-              <td className={`bg-[#0f0f0f]`}>
-                  <span className={`text-${difficultyColor}-600 ml-6`}>
+              <td className={`bg-[#151515]`}>
+                  <span className={`${difficultyColor} ml-6`}>
                     {doc.difficulty}
                   </span>
               </td>
 
-              <td className='px-4 py-2 bg-[#0f0f0f] text-[#ADADAD] rounded-r-lg'>
+              <td className='px-4 py-2 bg-[#151515] text-[#ADADAD] rounded-r-lg'>
                 {doc.category}
               </td>
 
