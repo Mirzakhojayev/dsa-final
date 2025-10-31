@@ -49,7 +49,6 @@ const ReadPage = () => {
             className='mb-12'>
             <div className='flex items-center gap-4 mb-4'>
               <h3 className='text-3xl font-bold text-white'>{category}</h3>
-              <div className='flex-1 h-[1px] bg-[#2A2A2A]'></div>
             </div>
             <table
               className='text-sm text-left text-gray-400 w-full mb-4'

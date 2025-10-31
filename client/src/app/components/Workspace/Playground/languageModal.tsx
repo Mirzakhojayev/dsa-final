@@ -1,15 +1,36 @@
 import React from 'react'
+import { useLanguageStore } from '@/store/useLanguageStore'
 
-const LanguageModal = () => {
+interface LanguageModalProps {
+  onClose: () => void;
+}
+
+const LanguageModal = ({ onClose }: LanguageModalProps) => {
+  const { language, setLanguage } = useLanguageStore();
+  
+  const languages = ['Cpp', 'Python', 'JavaScript', 'Java'] as const;
+
+  const handleLanguageSelect = (lang: typeof languages[number]) => {
+    setLanguage(lang);
+    onClose();
+  };
+
   return (
     <div className='flex'>
       <div className='flex-grow p-4 text-[#b4b4b4]'>
         <h2 className='text-lg font-semibold'>Select Language</h2>
         <ul className='mt-2'>
-          <li className='py-1 hover:bg-[#333333] p-1 rounded cursor-pointer'>C++</li>
-          <li className='py-1 hover:bg-[#333333] p-1 rounded cursor-pointer'>Python</li>
-          <li className='py-1 hover:bg-[#333333] p-1 rounded cursor-pointer'>JavaScript</li>
-          <li className='py-1 hover:bg-[#333333] p-1 rounded cursor-pointer'>Java</li>
+          {languages.map((lang) => (
+            <li
+              key={lang}
+              onClick={() =>  handleLanguageSelect(lang)}
+              className={`py-1 p-1 rounded cursor-pointer ${
+                language === lang ? 'bg-[#444444]' : 'hover:bg-[#333333]'
+              }`}
+            >
+              {lang}
+            </li>
+          ))}
         </ul>
       </div>
     </div>

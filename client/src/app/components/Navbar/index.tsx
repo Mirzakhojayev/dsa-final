@@ -22,7 +22,7 @@ const Navbar = () => {
               tabIndex={0}
               className=' hover:text-white cursor-pointer ml-3'
               href='/'>
-              Home
+              Asosiy
             </Link>
             <Link
               role='link'
