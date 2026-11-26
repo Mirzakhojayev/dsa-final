@@ -1,11 +1,33 @@
 const Question = require("../model/questionModel/questionModel");
 
-const LIST_FIELDS = "slug order title difficulty category";
+const LIST_FIELDS = "slug order title difficulty category description createdAt";
+const EXCERPT_LENGTH = 200;
+const MAX_LIMIT = 100;
+
+// First paragraph of the description as plain text, cut to EXCERPT_LENGTH.
+const toExcerpt = (description) => {
+  const text = description.split(/\n\s*\n/)[0].replace(/`/g, "").trim();
+  return text.length > EXCERPT_LENGTH
+    ? `${text.slice(0, EXCERPT_LENGTH).trimEnd()}...`
+    : text;
+};
 
 // GET /api/questions
+// Query params (optional):
+//   sort=newest  - most recently added first (default: by order)
+//   limit=N      - return at most N questions (1-100)
 const getQuestions = async (req, res) => {
-  const questions = await Question.find({}, LIST_FIELDS).sort({ order: 1 });
-  res.json(questions);
+  const sort = req.query.sort === "newest" ? { createdAt: -1 } : { order: 1 };
+  const limit = Math.min(Math.max(parseInt(req.query.limit, 10) || 0, 0), MAX_LIMIT);
+
+  const questions = await Question.find({}, LIST_FIELDS).sort(sort).limit(limit).lean();
+
+  res.json(
+    questions.map(({ description, ...q }) => ({
+      ...q,
+      excerpt: toExcerpt(description),
+    }))
+  );
 };
 
 // GET /api/questions/:slug  (hidden test cases are never sent to the client)

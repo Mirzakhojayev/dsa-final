@@ -4,7 +4,7 @@ import {useCallback, useEffect, useState} from "react";
 import Link from "next/link";
 import {CheckCircle} from "lucide-react";
 import {getQuestions} from "@/lib/api";
-import type {Difficulty, QuestionSummary} from "@/types/question";
+import type {Difficulty, QuestionListItem} from "@/types/question";
 
 const difficultyColor: Record<Difficulty, string> = {
   Easy: "text-green-500",
@@ -16,14 +16,14 @@ const COLUMN_COUNT = 4;
 const SKELETON_ROWS = 6;
 
 const ProblemsTable = () => {
-  const [problems, setProblems] = useState<QuestionSummary[]>([]);
+  const [problems, setProblems] = useState<QuestionListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const load = useCallback((signal?: AbortSignal) => {
     setLoading(true);
     setError(null);
-    getQuestions({signal})
+    getQuestions({}, {signal})
       .then(setProblems)
       .catch((err: Error) => {
         if (signal?.aborted) return;

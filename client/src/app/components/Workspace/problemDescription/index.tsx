@@ -5,10 +5,20 @@ import {
   NotebookText,
 } from "lucide-react";
 import React from "react";
+import type {Difficulty, Question} from "@/types/question";
 
-type Props = {};
+const difficultyColor: Record<Difficulty, string> = {
+  Easy: "text-green-500",
+  Medium: "text-yellow-500",
+  Hard: "text-red-500",
+};
 
-const ProblemDescription = (props: Props) => {
+type Props = {
+  question: Question;
+};
+
+// TODO (step 2.5): render description, examples, constraints and test cases from `question`.
+const ProblemDescription = ({question}: Props) => {
   return (
     <div className='h-screen bg-[#262626] m-1 rounded-xl'>
       {/* Header */}
@@ -35,12 +45,15 @@ const ProblemDescription = (props: Props) => {
           <div className='w-full'>
             <div className='flex space-x-4'>
               <div className='flex-1 mr-2 text-lg text-white font-medium'>
-                1. Two Sum
+                {question.order}. {question.title}
               </div>
             </div>
             <div className='flex items-center mt-3'>
-              <div className='text-green-500 bg-[#333333] inline-block rounded-[21px] bg-opacity-[.15] px-2.5 py-1 text-xs font-medium capitalize'>
-                Easy
+              <div
+                className={`${
+                  difficultyColor[question.difficulty]
+                } bg-[#333333] inline-block rounded-[21px] bg-opacity-[.15] px-2.5 py-1 text-xs font-medium capitalize`}>
+                {question.difficulty}
               </div>
               <div className='rounded p-[3px] ml-4 text-lg text-green-500'>
                 <CheckCircle />

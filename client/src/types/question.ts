@@ -22,6 +22,12 @@ export type QuestionSummary = {
   title: string;
   difficulty: Difficulty;
   category: string;
+  createdAt: string;
+};
+
+// Returned by GET /api/questions (adds a short plain-text excerpt)
+export type QuestionListItem = QuestionSummary & {
+  excerpt: string;
 };
 
 // Returned by GET /api/questions/:slug (visible test cases only)

@@ -1,4 +1,4 @@
-import type { Question, QuestionSummary } from "@/types/question";
+import type { Question, QuestionListItem } from "@/types/question";
 
 export const API_URL =
   process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4002";
@@ -30,8 +30,21 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   return res.status === 204 ? (undefined as T) : res.json();
 }
 
-export const getQuestions = (init?: RequestInit) =>
-  request<QuestionSummary[]>("/api/questions", init);
+export type GetQuestionsOptions = {
+  sort?: "order" | "newest";
+  limit?: number;
+};
+
+export const getQuestions = (
+  { sort, limit }: GetQuestionsOptions = {},
+  init?: RequestInit
+) => {
+  const params = new URLSearchParams();
+  if (sort) params.set("sort", sort);
+  if (limit) params.set("limit", String(limit));
+  const query = params.toString() ? `?${params}` : "";
+  return request<QuestionListItem[]>(`/api/questions${query}`, init);
+};
 
 export const getQuestion = (slug: string, init?: RequestInit) =>
   request<Question>(`/api/questions/${encodeURIComponent(slug)}`, init);

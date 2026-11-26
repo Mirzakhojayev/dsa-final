@@ -2,15 +2,12 @@
 
 A platform for learning Data Structures & Algorithms in Uzbek: read articles, follow a roadmap, and solve coding problems in the browser, LeetCode-style.
 
-> **Status:** in active development. See [Roadmap](#roadmap) for what works today and what's next.
-
 ## Tech stack
 
 | Part   | Stack |
 | ------ | ----- |
 | Client | Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS 4, Monaco Editor, Zustand |
 | Server | Node.js, Express 5, MongoDB with Mongoose |
-| Code execution (planned) | [Judge0](https://judge0.com) via RapidAPI |
 
 ## Project structure
 
@@ -94,7 +91,7 @@ Base URL: `http://localhost:4002`
 
 | Method | Endpoint               | Description |
 | ------ | ---------------------- | ----------- |
-| GET    | `/api/questions`       | List all problems (`slug`, `order`, `title`, `difficulty`, `category`), sorted by `order` |
+| GET    | `/api/questions`       | List problems (`slug`, `order`, `title`, `difficulty`, `category`, `excerpt`), sorted by `order`. Optional query: `sort=newest`, `limit=N` (max 100) |
 | GET    | `/api/questions/:slug` | One problem with description, examples, constraints and **visible** test cases only |
 | POST   | `/api/questions`       | Create a problem |
 | PUT    | `/api/questions/:slug` | Update a problem |
@@ -120,26 +117,11 @@ Errors are returned as JSON: `{ "message": "..." }` with status `400` (validatio
 }
 ```
 
-**Test cases use stdin/stdout** so one runner (Judge0) works for every language:
+**Test cases use stdin/stdout** so one code runner works for every language:
 
 - `input`: one JSON value per line, one line per function argument
 - `output`: the expected return value as JSON
 - Linked lists and trees are passed as arrays (trees in level order, `null` for a missing node)
-- `hidden: true` test cases are only used on Submit and are never sent to the client
+- `hidden: true` test cases are never sent to the client
 
 To add a problem, append it to [`server/src/seed/questions.js`](server/src/seed/questions.js) and run `npm run seed`.
-
-## Roadmap
-
-- [x] **1. Problems API:** question model, CRUD routes, seed data
-- [ ] **2. Client uses real data**
-  - [x] 2.1 API client and shared types
-  - [x] 2.2 Problem set table loads from the API
-  - [ ] 2.3 Home page "recent problems" loads from the API
-  - [ ] 2.4 Problem page loads its problem by slug
-  - [ ] 2.5 Problem description renders the loaded problem
-  - [ ] 2.6 Editor keeps separate code per language
-  - [ ] 2.7 Remove mock problem data
-- [ ] **3. Auth:** register / login (bcrypt + JWT), login & signup pages, admin-only problem editing
-- [ ] **4. Run & Submit:** Judge0 integration, output panel, submissions, solved status
-- [ ] **5. Remaining pages:** prev/next problem, search, editorial & solution tabs, About, Roadmap, Learn

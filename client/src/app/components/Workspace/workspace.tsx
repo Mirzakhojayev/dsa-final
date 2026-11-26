@@ -2,10 +2,13 @@
 import Split from "react-split";
 import ProblemDescription from "./problemDescription";
 import Playground from "./Playground/playground";
+import type {Question} from "@/types/question";
 
-type Props = {};
+type Props = {
+  question: Question;
+};
 
-const Workspace = (props: Props) => {
+const Workspace = ({question}: Props) => {
   return (
     <div className='w-full h-[100vh]'>
       <Split
@@ -20,7 +23,7 @@ const Workspace = (props: Props) => {
         direction='horizontal'
         cursor='col-resize'>
         <div style={{width: "100%", height: "100%"}}>
-          <ProblemDescription />
+          <ProblemDescription question={question} />
         </div>
         <div style={{width: "100%", height: "100%"}}>
           <Playground />
