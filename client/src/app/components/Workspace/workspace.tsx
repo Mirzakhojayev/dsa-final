@@ -26,7 +26,11 @@ const Workspace = ({question}: Props) => {
           <ProblemDescription question={question} />
         </div>
         <div style={{width: "100%", height: "100%"}}>
-          <Playground />
+          {/* key: start with fresh editor state when navigating to another problem */}
+          <Playground
+            key={question.slug}
+            question={question}
+          />
         </div>
       </Split>
     </div>

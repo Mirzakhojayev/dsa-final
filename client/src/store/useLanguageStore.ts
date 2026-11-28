@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-type Language = 'Cpp' | 'Python' | 'JavaScript' | 'Java';
+export type Language = 'Cpp' | 'Python' | 'JavaScript' | 'Java';
 
 interface LanguageStore {
   language: Language;

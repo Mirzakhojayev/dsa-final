@@ -13,12 +13,30 @@ const difficultyColor: Record<Difficulty, string> = {
   Hard: "text-red-500",
 };
 
+// Renders `backtick` spans as <code>. Odd-indexed parts of the split are inside backticks.
+const renderInline = (text: string) =>
+  text.split("`").map((part, idx) =>
+    idx % 2 === 1 ? (
+      <code
+        key={idx}
+        className='bg-[#3a3a3a] text-[#e6e6e6] px-1 py-0.5 rounded font-mono text-[13px]'>
+        {part}
+      </code>
+    ) : (
+      <React.Fragment key={idx}>{part}</React.Fragment>
+    )
+  );
+
 type Props = {
   question: Question;
 };
 
-// TODO (step 2.5): render description, examples, constraints and test cases from `question`.
 const ProblemDescription = ({question}: Props) => {
+  const paragraphs = question.description
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+
   return (
     <div className='h-screen bg-[#262626] m-1 rounded-xl'>
       {/* Header */}
@@ -40,7 +58,7 @@ const ProblemDescription = ({question}: Props) => {
       </div>
 
       <div className='flex px-0 py-4 h-[calc(100vh-94px)] overflow-y-auto custom-scrollbar'>
-        <div className='px-5'>
+        <div className='px-5 w-full'>
           {/* Problem heading */}
           <div className='w-full'>
             <div className='flex space-x-4'>
@@ -55,124 +73,94 @@ const ProblemDescription = ({question}: Props) => {
                 } bg-[#333333] inline-block rounded-[21px] bg-opacity-[.15] px-2.5 py-1 text-xs font-medium capitalize`}>
                 {question.difficulty}
               </div>
+              <div className='bg-[#333333] text-[#b4b4b4] inline-block rounded-[21px] px-2.5 py-1 ml-2 text-xs font-medium'>
+                {question.category}
+              </div>
+              {/* TODO (step 4.8): show only when the user has solved this problem */}
               <div className='rounded p-[3px] ml-4 text-lg text-green-500'>
                 <CheckCircle />
               </div>
             </div>
 
-            {/* Problem Statement(paragraphs) */}
+            {/* Problem statement */}
             <div className='text-white text-sm'>
-              <p className='mt-3'>
-                Given an array of integers <code>nums</code> and an integer{" "}
-                <code>target</code>, return
-                <em>
-                  indices of the two numbers such that they add up to
-                </em>{" "}
-                <code>target</code>.
-              </p>
-              <p className='mt-3'>
-                You may assume that each input would have{" "}
-                <strong>exactly one solution</strong>, and you may not use
-                thesame element twice.
-              </p>
-              <p className='mt-3'>You can return the answer in any order.</p>
+              {paragraphs.map((paragraph, idx) => (
+                <p
+                  key={idx}
+                  className='mt-3 leading-relaxed'>
+                  {renderInline(paragraph)}
+                </p>
+              ))}
             </div>
 
             {/* Examples */}
-            <div className='mt-4'>
-              {/* Example 1 */}
-              <div>
-                <p className='font-medium text-white '>Example 1: </p>
-                <div className='example-card'>
-                  <pre>
-                    <strong className='text-white'>Input: </strong> nums =
-                    [2,7,11,15], target = 9 <br />
-                    <strong>Output:</strong> [0,1] <br />
-                    <strong>Explanation:</strong>Because nums[0] + nums[1] == 9,
-                    we return [0, 1].
-                  </pre>
-                </div>
+            {question.examples.length > 0 && (
+              <div className='mt-4'>
+                {question.examples.map((example, idx) => (
+                  <div key={idx}>
+                    <p className='font-medium text-white'>Example {idx + 1}:</p>
+                    <div className='example-card'>
+                      <pre>
+                        <strong className='text-white'>Input: </strong>
+                        {example.input}
+                        <br />
+                        <strong className='text-white'>Output: </strong>
+                        {example.output}
+                        {example.explanation && (
+                          <>
+                            <br />
+                            <strong className='text-white'>Explanation: </strong>
+                            {example.explanation}
+                          </>
+                        )}
+                      </pre>
+                    </div>
+                  </div>
+                ))}
               </div>
-
-              {/* Example 2 */}
-              <div>
-                <p className='font-medium text-white '>Example 2: </p>
-                <div className='example-card'>
-                  <pre>
-                    <strong className='text-white'>Input: </strong> nums =
-                    [3,2,4], target = 6 <br />
-                    <strong>Output:</strong> [1,2] <br />
-                    <strong>Explanation:</strong>Because nums[1] + nums[2] == 6,
-                    we return [1, 2].
-                  </pre>
-                </div>
-              </div>
-              {/* Example 3 */}
-              <div>
-                <p className='font-medium text-white '>Example 3: </p>
-                <div className='example-card'>
-                  <pre>
-                    <strong className='text-white'>Input: </strong> nums =
-                    [3,3], target = 6
-                    <br />
-                    <strong>Output:</strong> [0,1] <br />
-                  </pre>
-                </div>
-              </div>
-            </div>
+            )}
 
             {/* Constraints */}
-            <div className='my-5'>
-              <div className='text-white font-bold text-lg'>Constraints:</div>
-              <ul className='text-sm text-[#b4b4b4] ml-5 list-disc'>
-                <li className='mt-2'>
-                  <code>2 ≤ nums.length ≤ 10</code>
-                </li>
-
-                <li className='mt-2'>
-                  <code>-10 ≤ nums[i] ≤ 10</code>
-                </li>
-                <li className='mt-2'>
-                  <code>-10 ≤ target ≤ 10</code>
-                </li>
-                <li className='mt-2 text-sm'>
-                  <strong>Only one valid answer exists.</strong>
-                </li>
-              </ul>
-            </div>
-
-            {/* TestCases */}
-            <div className='flex items-center mt-1 text-white font-bold text-lg'>
-              Testcases:
-            </div>
-            <div className='flex flex-col my-1'>
-              {/* Case 1 */}
-              <div className='flex items-center text-white font-medium'>
-                <span>Case 1:</span>
+            {question.constraints.length > 0 && (
+              <div className='my-5'>
+                <div className='text-white font-bold text-lg'>Constraints:</div>
+                <ul className='text-sm text-[#b4b4b4] ml-5 list-disc'>
+                  {question.constraints.map((constraint, idx) => (
+                    <li
+                      key={idx}
+                      className='mt-2'>
+                      <code>{constraint}</code>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <div className='font-semibold text-sm text-white'>
-                <div className='example-card my-1'>
-                  <p className='text-sm font-medium text-white'>
-                    Input:{" "}
-                    <span className='text-[#b4b4b4] font-normal'>
-                      nums: [2, 7, 11, 15], target: 9
-                    </span>
-                  </p>
-                  <p className='text-sm font-medium text-white'>
-                    Output:{" "}
-                    <span className='text-[#b4b4b4] font-normal'>[0, 1]</span>
-                  </p>
+            )}
+
+            {/* Test cases (only visible ones are sent by the API) */}
+            {question.testCases.length > 0 && (
+              <>
+                <div className='flex items-center mt-1 text-white font-bold text-lg'>
+                  Testcases:
                 </div>
-              </div>
-              {/* Case 2 */}
-              <div className='flex items-center py-1 text-white font-medium'>
-                <span>Case 2:</span>
-              </div>
-              {/* Case 3 */}
-              <div className='flex items-center py-1 text-white font-medium'>
-                <span>Case 3:</span>
-              </div>
-            </div>
+                <div className='flex flex-col my-1 pb-4'>
+                  {question.testCases.map((testCase, idx) => (
+                    <div key={idx}>
+                      <div className='flex items-center py-1 text-white font-medium'>
+                        <span>Case {idx + 1}:</span>
+                      </div>
+                      <div className='example-card my-1'>
+                        <p className='text-sm font-medium text-white'>Input:</p>
+                        <pre className='font-mono'>{testCase.input}</pre>
+                        <p className='text-sm font-medium text-white mt-2'>
+                          Output:
+                        </p>
+                        <pre className='font-mono'>{testCase.output}</pre>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
