@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const questionRoutes = require("./src/routes/questionRoutes");
+const authRoutes = require("./src/routes/authRoutes");
 const { notFound, errorHandler } = require("./src/middleware/errorHandler");
 
 const app = express();
@@ -20,13 +21,16 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/questions", questionRoutes);
+app.use("/api/auth", authRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
 
-if (!MONGO_URL) {
-  console.error("MONGO_URL is not set. Copy .env.example to .env and fill it in.");
-  process.exit(1);
+for (const name of ["MONGO_URL", "JWT_SECRET"]) {
+  if (!process.env[name]) {
+    console.error(`${name} is not set. Copy .env.example to .env and fill it in.`);
+    process.exit(1);
+  }
 }
 
 mongoose
