@@ -15,11 +15,11 @@ A platform for learning Data Structures & Algorithms in Uzbek: read articles, fo
 dsa-final/
 ├── client/                  # Next.js frontend
 │   └── src/
-│       ├── app/             # Pages: /, /problemset, /problem/[problemId], /read, /roadmap, /about
+│       ├── app/             # Pages: /, /problemset, /problem/[problemId], /signup, /read, /roadmap, /about
 │       │   └── components/  # Navbar, Footer, ProblemsTable, Workspace (description + code editor), ...
 │       ├── components/ui/   # shadcn/ui components (button, carousel)
 │       ├── lib/api.ts       # API client
-│       ├── store/           # Zustand stores (selected language)
+│       ├── store/           # Zustand stores (selected language, logged-in user)
 │       └── types/           # Shared TypeScript types
 └── server/                  # Express API
     ├── server.js            # Entry point
@@ -28,6 +28,7 @@ dsa-final/
         ├── middleware/      # Auth (protect), 404 + error handler
         ├── model/           # Mongoose models (Question, User)
         ├── routes/          # Express routers
+        ├── scripts/         # One-off CLI scripts (make-admin)
         ├── seed/            # Seed data + script
         └── utils/           # JWT helpers
 ```
@@ -84,6 +85,7 @@ npm run dev                  # http://localhost:3000
 | server   | `npm run dev`   | Start the API with auto-reload (nodemon) |
 | server   | `npm start`     | Start the API |
 | server   | `npm run seed`  | Insert/update the problems in `src/seed/questions.js` (safe to re-run) |
+| server   | `npm run make-admin -- <email>` | Give an existing user the admin role |
 | client   | `npm run dev`   | Start the Next.js dev server |
 | client   | `npm run build` | Production build |
 | client   | `npm run lint`  | Run ESLint |
@@ -96,11 +98,11 @@ Base URL: `http://localhost:4002`
 | ------ | ---------------------- | ----------- |
 | GET    | `/api/questions`       | List problems (`slug`, `order`, `title`, `difficulty`, `category`, `excerpt`), sorted by `order`. Optional query: `sort=newest`, `limit=N` (max 100) |
 | GET    | `/api/questions/:slug` | One problem with description, examples, constraints and **visible** test cases only |
-| POST   | `/api/questions`       | Create a problem |
-| PUT    | `/api/questions/:slug` | Update a problem |
-| DELETE | `/api/questions/:slug` | Delete a problem |
+| POST   | `/api/questions`       | Create a problem (admin only) |
+| PUT    | `/api/questions/:slug` | Update a problem (admin only) |
+| DELETE | `/api/questions/:slug` | Delete a problem (admin only) |
 
-> ⚠️ `POST`, `PUT` and `DELETE` are not protected yet. They will be restricted to admins once auth is added.
+Admin-only routes require `Authorization: Bearer <token>` from an admin account.
 
 ### Auth
 
@@ -110,11 +112,16 @@ Base URL: `http://localhost:4002`
 | POST   | `/api/auth/login`    | `{ email, password }`                        | Log in. Returns `{ token, user }` |
 | GET    | `/api/auth/me`       | (none)                                       | The logged-in user. Requires `Authorization: Bearer <token>` |
 
-New accounts always get the `user` role. To make someone an admin, set `role: "admin"` on their document in MongoDB.
+New accounts always get the `user` role. To make an existing account an admin:
+
+```bash
+cd server
+npm run make-admin -- user@example.com
+```
 
 ### Errors
 
-Errors are returned as JSON: `{ "message": "..." }` with status `400` (validation), `401` (not logged in / bad credentials), `404` (not found), `409` (duplicate email, `slug` or `order`) or `500`.
+Errors are returned as JSON: `{ "message": "..." }` with status `400` (validation), `401` (not logged in / bad credentials), `403` (not an admin), `404` (not found), `409` (duplicate email, `slug` or `order`) or `500`.
 
 ### Problem format
 

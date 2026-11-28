@@ -6,15 +6,15 @@ const {
   updateQuestion,
   deleteQuestion,
 } = require("../controllers/questionController");
+const { protect, adminOnly } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
 router.get("/", getQuestions);
 router.get("/:slug", getQuestion);
 
-// TODO (step 3 - auth): restrict these to admins.
-router.post("/", createQuestion);
-router.put("/:slug", updateQuestion);
-router.delete("/:slug", deleteQuestion);
+router.post("/", protect, adminOnly, createQuestion);
+router.put("/:slug", protect, adminOnly, updateQuestion);
+router.delete("/:slug", protect, adminOnly, deleteQuestion);
 
 module.exports = router;
